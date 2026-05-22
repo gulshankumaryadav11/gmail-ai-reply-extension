@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>AI Email Writer</title>
+
+  <style>
+
+    body{
+      width:320px;
+      padding:15px;
+      font-family:Arial;
+    }
+
+    h2{
+      margin-bottom:15px;
+    }
+
+    select,
+    textarea,
+    button{
+
+      width:100%;
+      margin-top:10px;
+      padding:10px;
+      box-sizing:border-box;
+    }
+
+    textarea{
+      resize:none;
+    }
+
+    button{
+
+      background:#1a73e8;
+      color:white;
+      border:none;
+      border-radius:5px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <h2>AI Email Writer</h2>
+
+  <label>Choose Tone</label>
+
+  <select id="tone">
+
+    <option value="professional">
+      Professional
+    </option>
+
+    <option value="formal">
+      Formal
+    </option>
+
+    <option value="friendly">
+      Friendly
+    </option>
+
+    <option value="casual">
+      Casual
+    </option>
+
+    <option value="apologetic">
+      Apologetic
+    </option>
+
+    <option value="persuasive">
+      Persuasive
+    </option>
+
+    <option value="enthusiastic">
+      Enthusiastic
+    </option>
+
+  </select>
+
+  <label>Custom Instructions</label>
+
+  <textarea
+    id="instructions"
+    rows="5"
+    placeholder="Write short reply..."
+  ></textarea>
+
+  <button id="saveBtn">
+
+    Save Settings
+
+  </button>
+
+  <script src="popup.js"></script>
+
+</body>
+</html>
