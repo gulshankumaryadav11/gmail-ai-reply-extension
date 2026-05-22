@@ -3,42 +3,199 @@
 
 <head>
 
-  <title>AI Email Writer</title>
+  <title>Email Generator</title>
 
   <style>
 
-    body{
-      width:320px;
-      padding:15px;
-      font-family:Arial;
-    }
-
-    h2{
-      margin-bottom:15px;
-    }
-
-    select,
-    textarea,
-    button{
-
-      width:100%;
-      margin-top:10px;
-      padding:10px;
+    *{
       box-sizing:border-box;
     }
 
-    textarea{
-      resize:none;
+    body{
+
+      width:360px;
+
+      margin:0;
+
+      padding:18px;
+
+      font-family:Arial,sans-serif;
+
+      background:#F7F4F2;
     }
 
-    button{
+    .container{
 
-      background:#1a73e8;
+      background:white;
+
+      border-radius:20px;
+
+      padding:22px;
+
+      box-shadow:
+        0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .header{
+
+      display:flex;
+
+      align-items:center;
+
+      gap:12px;
+
+      margin-bottom:20px;
+    }
+
+    .logo{
+
+      width:48px;
+
+      height:48px;
+
+      border-radius:14px;
+
+      background:#C9855D;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
       color:white;
-      border:none;
-      border-radius:5px;
-      cursor:pointer;
+
+      font-size:22px;
+
       font-weight:bold;
+    }
+
+    .title h2{
+
+      margin:0;
+
+      font-size:22px;
+
+      color:#222;
+    }
+
+    .title p{
+
+      margin:3px 0 0;
+
+      font-size:13px;
+
+      color:#777;
+    }
+
+    label{
+
+      display:block;
+
+      margin-top:16px;
+
+      margin-bottom:8px;
+
+      font-size:14px;
+
+      font-weight:600;
+
+      color:#444;
+    }
+
+    select,
+    textarea{
+
+      width:100%;
+
+      border:none;
+
+      outline:none;
+
+      background:#F8F8F8;
+
+      padding:14px;
+
+      border-radius:14px;
+
+      font-size:14px;
+
+      transition:0.2s;
+
+      border:2px solid transparent;
+    }
+
+    select:focus,
+    textarea:focus{
+
+      border-color:#C9855D;
+
+      background:white;
+    }
+
+    textarea{
+
+      resize:none;
+
+      min-height:110px;
+    }
+
+    .tone-preview{
+
+      margin-top:10px;
+
+      background:#FAEFE8;
+
+      color:#7A4C2F;
+
+      padding:12px;
+
+      border-radius:12px;
+
+      font-size:13px;
+
+      line-height:1.5;
+    }
+
+    .save-btn{
+
+      width:100%;
+
+      margin-top:22px;
+
+      padding:14px;
+
+      border:none;
+
+      border-radius:16px;
+
+      background:#C9855D;
+
+      color:white;
+
+      font-size:15px;
+
+      font-weight:700;
+
+      cursor:pointer;
+
+      transition:0.2s;
+    }
+
+    .save-btn:hover{
+
+      background:#B9764F;
+    }
+
+    .footer{
+
+      text-align:center;
+
+      margin-top:14px;
+
+      font-size:12px;
+
+      color:#888;
     }
 
   </style>
@@ -47,55 +204,104 @@
 
 <body>
 
-  <h2>AI Email Writer</h2>
+  <div class="container">
 
-  <label>Choose Tone</label>
+    <div class="header">
 
-  <select id="tone">
+      <div class="logo">
 
-    <option value="professional">
-      Professional
-    </option>
+        ✨
 
-    <option value="formal">
-      Formal
-    </option>
+      </div>
 
-    <option value="friendly">
-      Friendly
-    </option>
+      <div class="title">
 
-    <option value="casual">
-      Casual
-    </option>
+        <h2>
+          Email Generator
+        </h2>
 
-    <option value="apologetic">
-      Apologetic
-    </option>
+        <p>
+          AI-powered Gmail assistant
+        </p>
 
-    <option value="persuasive">
-      Persuasive
-    </option>
+      </div>
 
-    <option value="enthusiastic">
-      Enthusiastic
-    </option>
+    </div>
 
-  </select>
+    <label>
+      Select Tone
+    </label>
 
-  <label>Custom Instructions</label>
+    <select id="tone">
 
-  <textarea
-    id="instructions"
-    rows="5"
-    placeholder="Write short reply..."
-  ></textarea>
+      <option value="professional">
+        Professional
+      </option>
 
-  <button id="saveBtn">
+      <option value="friendly">
+        Friendly
+      </option>
 
-    Save Settings
+      <option value="casual">
+        Casual
+      </option>
 
-  </button>
+      <option value="formal">
+        Formal
+      </option>
+
+      <option value="apologetic">
+        Apologetic
+      </option>
+
+      <option value="persuasive">
+        Persuasive
+      </option>
+
+      <option value="follow-up">
+        Follow-up
+      </option>
+
+      <option value="enthusiastic">
+        Enthusiastic
+      </option>
+
+    </select>
+
+    <div
+      class="tone-preview"
+      id="tonePreview"
+    >
+
+      Professional replies are clean and work-oriented.
+
+    </div>
+
+    <label>
+      Custom Instructions
+    </label>
+
+    <textarea
+      id="instructions"
+      placeholder="Keep the reply short and friendly..."
+    ></textarea>
+
+    <button
+      class="save-btn"
+      id="saveBtn"
+    >
+
+      Save Settings
+
+    </button>
+
+    <div class="footer">
+
+      Gmail AI Reply Assistant
+
+    </div>
+
+  </div>
 
   <script src="popup.js"></script>
 
