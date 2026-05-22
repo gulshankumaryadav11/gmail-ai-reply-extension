@@ -35,10 +35,12 @@ async function generateAIReply(emailContent) {
             }
         );
 
-        const text =
-            await response.text();
+        if (!response.ok) {
 
-        return text;
+            return "Backend error";
+        }
+
+        return await response.text();
 
     } catch (error) {
 
@@ -48,160 +50,471 @@ async function generateAIReply(emailContent) {
     }
 }
 
-function injectAIButton() {
+function createAIButton(toolbar) {
 
-    // Gmail send button area
-    const sendButtons =
-        document.querySelectorAll(".dC");
+    if (
+        toolbar.querySelector(
+            ".ai-container"
+        )
+    ) {
+        return;
+    }
 
-    sendButtons.forEach((sendBtn) => {
+    const container =
+        document.createElement(
+            "div"
+        );
 
-        const parent =
-            sendBtn.parentElement;
+    container.className =
+        "ai-container";
 
-        // Prevent duplicate
-        if (
-            parent.querySelector(
-                ".my-ai-btn"
-            )
-        ) {
-            return;
-        }
+    container.style.display =
+        "flex";
 
-        // Create button
-        const button =
+    container.style.alignItems =
+        "center";
+
+    container.style.marginLeft =
+        "10px";
+
+    container.style.position =
+        "relative";
+
+    const mainButton =
+        document.createElement(
+            "button"
+        );
+
+    mainButton.type =
+        "button";
+
+    mainButton.innerText =
+        "AI Reply";
+
+    mainButton.style.background =
+        "#C9855D";
+
+    mainButton.style.color =
+        "white";
+
+    mainButton.style.border =
+        "none";
+
+    mainButton.style.height =
+        "40px";
+
+    mainButton.style.padding =
+        "0 22px";
+
+    mainButton.style.fontSize =
+        "14px";
+
+    mainButton.style.fontWeight =
+        "600";
+
+    mainButton.style.borderRadius =
+        "20px 0 0 20px";
+
+    mainButton.style.cursor =
+        "pointer";
+
+    mainButton.style.display =
+        "flex";
+
+    mainButton.style.alignItems =
+        "center";
+
+    mainButton.style.justifyContent =
+        "center";
+
+    const dropdownButton =
+        document.createElement(
+            "button"
+        );
+
+    dropdownButton.type =
+        "button";
+
+    dropdownButton.innerText =
+        "▼";
+
+    dropdownButton.style.background =
+        "#C9855D";
+
+    dropdownButton.style.color =
+        "white";
+
+    dropdownButton.style.border =
+        "none";
+
+    dropdownButton.style.borderLeft =
+        "1px solid rgba(255,255,255,0.3)";
+
+    dropdownButton.style.height =
+        "40px";
+
+    dropdownButton.style.padding =
+        "0 14px";
+
+    dropdownButton.style.fontSize =
+        "12px";
+
+    dropdownButton.style.fontWeight =
+        "bold";
+
+    dropdownButton.style.borderRadius =
+        "0 20px 20px 0";
+
+    dropdownButton.style.cursor =
+        "pointer";
+
+    mainButton.onmouseenter =
+    dropdownButton.onmouseenter =
+    () => {
+
+        mainButton.style.background =
+            "#B9764F";
+
+        dropdownButton.style.background =
+            "#B9764F";
+    };
+
+    mainButton.onmouseleave =
+    dropdownButton.onmouseleave =
+    () => {
+
+        mainButton.style.background =
+            "#C9855D";
+
+        dropdownButton.style.background =
+            "#C9855D";
+    };
+
+    const menu =
+        document.createElement(
+            "div"
+        );
+
+    menu.style.position =
+        "absolute";
+
+    menu.style.right =
+        "0";
+
+    menu.style.top =
+        "48px";
+
+    menu.style.background =
+        "white";
+
+    menu.style.border =
+        "1px solid #ddd";
+
+    menu.style.borderRadius =
+        "12px";
+
+    menu.style.boxShadow =
+        "0 4px 14px rgba(0,0,0,0.15)";
+
+    menu.style.display =
+        "none";
+
+    menu.style.flexDirection =
+        "column";
+
+    menu.style.minWidth =
+        "200px";
+
+    menu.style.overflow =
+        "hidden";
+
+    menu.style.zIndex =
+        "999999";
+
+    const tones = [
+
+        "professional",
+
+        "friendly",
+
+        "casual",
+
+        "formal",
+
+        "apologetic",
+
+        "persuasive",
+
+        "follow-up",
+
+        "enthusiastic"
+    ];
+
+    tones.forEach((tone) => {
+
+        const item =
             document.createElement(
                 "div"
             );
 
-        button.innerText =
-            "AI Reply";
+        item.innerText =
+            tone;
 
-        button.className =
-            "my-ai-btn";
+        item.style.padding =
+            "12px 14px";
 
-        // Styling
-        button.style.background =
-            "#1a73e8";
-
-        button.style.color =
-            "white";
-
-        button.style.padding =
-            "10px 16px";
-
-        button.style.marginLeft =
-            "10px";
-
-        button.style.borderRadius =
-            "6px";
-
-        button.style.cursor =
+        item.style.cursor =
             "pointer";
 
-        button.style.fontWeight =
-            "bold";
+        item.style.textTransform =
+            "capitalize";
 
-        button.style.userSelect =
-            "none";
+        item.style.fontSize =
+            "14px";
 
-        button.style.zIndex =
-            "999999";
+        item.style.transition =
+            "0.2s";
 
-        button.style.display =
-            "inline-block";
+        item.onmouseenter = () => {
 
-        // CLICK
-        button.addEventListener(
-            "click",
-            async (e) => {
+            item.style.background =
+                "#F7F1ED";
+        };
 
-                e.preventDefault();
+        item.onmouseleave = () => {
 
-                e.stopPropagation();
+            item.style.background =
+                "white";
+        };
 
-                try {
+        item.onclick =
+            async () => {
 
-                    button.innerText =
-                        "Generating...";
+            await chrome.storage.local.set({
+                tone: tone
+            });
 
-                    // Read email
-                    const emailBodies =
-                        document.querySelectorAll(
-                            ".a3s"
-                        );
+            alert(
+                "Tone set to: "
+                + tone
+            );
 
-                    let emailContent =
-                        "";
+            menu.style.display =
+                "none";
+        };
 
-                    emailBodies.forEach(
-                        (body) => {
+        menu.appendChild(item);
+    });
 
-                        emailContent +=
-                            body.innerText +
-                            "\n";
-                    });
-
-                    if (
-                        !emailContent.trim()
-                    ) {
-
-                        alert(
-                            "Email not found"
-                        );
-
-                        button.innerText =
-                            "AI Reply";
-
-                        return;
-                    }
-
-                    // Generate AI reply
-                    const aiReply =
-                        await generateAIReply(
-                            emailContent
-                        );
-
-                    // Find reply box
-                    const replyBox =
-                        document.querySelector(
-                            '[role="textbox"]'
-                        );
-
-                    if (replyBox) {
-
-                        replyBox.focus();
-
-                        // Insert text
-                        replyBox.innerText =
-                            aiReply;
-
-                    } else {
-
-                        alert(
-                            "Reply box not found"
-                        );
-                    }
-
-                } catch (error) {
-
-                    console.error(
-                        error
-                    );
-                }
-
-                button.innerText =
-                    "AI Reply";
-            }
+    const instructionItem =
+        document.createElement(
+            "div"
         );
 
-        // Add button
-        parent.appendChild(button);
+    instructionItem.innerText =
+        "Custom Instructions";
+
+    instructionItem.style.padding =
+        "12px 14px";
+
+    instructionItem.style.cursor =
+        "pointer";
+
+    instructionItem.style.fontWeight =
+        "600";
+
+    instructionItem.style.borderTop =
+        "1px solid #eee";
+
+    instructionItem.style.fontSize =
+        "14px";
+
+    instructionItem.onmouseenter =
+        () => {
+
+        instructionItem.style.background =
+            "#F7F1ED";
+    };
+
+    instructionItem.onmouseleave =
+        () => {
+
+        instructionItem.style.background =
+            "white";
+    };
+
+    instructionItem.onclick =
+        async () => {
+
+        const value =
+            prompt(
+                "Enter custom instructions"
+            );
+
+        if (
+            value !== null
+        ) {
+
+            await chrome.storage.local.set({
+
+                instructions:
+                    value
+            });
+
+            alert(
+                "Instructions Saved ✅"
+            );
+        }
+
+        menu.style.display =
+            "none";
+    };
+
+    menu.appendChild(
+        instructionItem
+    );
+
+    dropdownButton.onclick =
+        (e) => {
+
+        e.stopPropagation();
+
+        menu.style.display =
+            menu.style.display === "flex"
+            ? "none"
+            : "flex";
+    };
+
+    document.addEventListener(
+        "click",
+        () => {
+
+        menu.style.display =
+            "none";
+    });
+
+    mainButton.onclick =
+        async (e) => {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+        try {
+
+            mainButton.innerText =
+                "Generating...";
+
+            const emailBodies =
+                document.querySelectorAll(
+                    ".a3s"
+                );
+
+            let emailContent =
+                "";
+
+            emailBodies.forEach(
+                (body) => {
+
+                emailContent +=
+                    body.innerText +
+                    "\n";
+            });
+
+            if (
+                !emailContent.trim()
+            ) {
+
+                alert(
+                    "Email content not found"
+                );
+
+                mainButton.innerText =
+                    "AI Reply";
+
+                return;
+            }
+
+            const aiReply =
+                await generateAIReply(
+                    emailContent
+                );
+
+            const replyBox =
+                document.querySelector(
+                    '[role="textbox"]'
+                );
+
+            if (replyBox) {
+
+                replyBox.focus();
+
+                replyBox.innerHTML =
+                    aiReply.replace(
+                        /\n/g,
+                        "<br>"
+                    );
+
+            } else {
+
+                alert(
+                    "Reply box not found"
+                );
+            }
+
+        } catch (error) {
+
+            console.error(error);
+        }
+
+        mainButton.innerText =
+            "AI Reply";
+    };
+
+    container.appendChild(
+        mainButton
+    );
+
+    container.appendChild(
+        dropdownButton
+    );
+
+    container.appendChild(
+        menu
+    );
+
+    toolbar.appendChild(
+        container
+    );
+}
+
+function injectButtons() {
+
+    const toolbars =
+        document.querySelectorAll(
+            ".btC"
+        );
+
+    toolbars.forEach((toolbar) => {
+
+        createAIButton(
+            toolbar
+        );
     });
 }
 
-// Run repeatedly
-setInterval(
-    injectAIButton,
-    2000
+const observer =
+    new MutationObserver(() => {
+
+        injectButtons();
+    });
+
+observer.observe(
+    document.body,
+    {
+        childList: true,
+        subtree: true
+    }
 );
+
+injectButtons();
