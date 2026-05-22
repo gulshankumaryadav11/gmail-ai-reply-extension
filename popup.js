@@ -1,28 +1,61 @@
-document
-  .getElementById("saveBtn")
-  .addEventListener("click", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
 
-    const tone =
-      document.getElementById(
-        "tone"
-      ).value;
+        const settings =
+            await chrome.storage.local.get([
+                "tone",
+                "instructions"
+            ]);
 
-    const instructions =
-      document.getElementById(
-        "instructions"
-      ).value;
+        if(settings.tone){
 
-    chrome.storage.local.set({
+            document.getElementById(
+                "tone"
+            ).value =
+                settings.tone;
+        }
 
-      tone: tone,
+        if(settings.instructions){
 
-      instructions:
-        instructions
+            document.getElementById(
+                "instructions"
+            ).value =
+                settings.instructions;
+        }
 
-    }, () => {
+        document
+            .getElementById(
+                "saveBtn"
+            )
+            .addEventListener(
+                "click",
+                () => {
 
-      alert(
-        "Settings Saved ✅"
-      );
-    });
-});
+                    const tone =
+                        document.getElementById(
+                            "tone"
+                        ).value;
+
+                    const instructions =
+                        document.getElementById(
+                            "instructions"
+                        ).value;
+
+                    chrome.storage.local.set({
+
+                        tone: tone,
+
+                        instructions:
+                            instructions
+
+                    }, () => {
+
+                        alert(
+                            "Settings Saved"
+                        );
+                    });
+                }
+            );
+    }
+);
