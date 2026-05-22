@@ -5,7 +5,8 @@
 
   "version": "1.0",
 
-  "description": "Generate AI-powered email replies directly inside Gmail.",
+  "description":
+    "Generate AI-powered email replies directly inside Gmail.",
 
   "permissions": [
     "activeTab",
@@ -13,7 +14,9 @@
   ],
 
   "host_permissions": [
+
     "https://mail.google.com/*",
+
     "https://email-writer-sb-u1wg.onrender.com/*"
   ],
 
@@ -27,11 +30,14 @@
         "content.js"
       ],
 
-      "run_at": "document_idle"
+      "run_at":
+        "document_idle"
     }
   ],
 
   "action": {
-    "default_popup": "popup.html"
+
+    "default_popup":
+      "popup.html"
   }
 }
